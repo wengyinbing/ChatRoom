@@ -1,0 +1,9 @@
+异步非阻塞
+
+1.首先做准备工作。跟NIO一样，先要创建好通道，只不过AIO是异步通道。然后创建好AsyncChannelGroup，可以选择自定义线程池。最后把AsyncServerSocket和AsyncChannelGroup绑定在一起，这样处于同一个AsyncChannelGroup里的通道就可以共享系统资源。
+
+2.最后一步准备工作，创建好handler类，并实现接口和里面两个回调方法。（如图：客户端1对应的handler,里面的回调方法会实现读取消息和转发消息的功能；serverSocket的handler里的回调方法会实现accept功能。）
+
+3.准备工作完成，当客户端1连接请求进来，客户端会马上回去，ServerSocket的异步方法会在连接成功后把客户端的SocketChannel存进在线用户列表，并利用客户端1的handler开始异步监听客户端1发送的消息。
+
+4.当客户端1发送消息时，如果上一步中的handler成功监听到，就会回调成功后的回调方法，这个方法里会把这个消息转发给其他客户端。转发完成后，接着利用handler监听客户端1发送的消息。

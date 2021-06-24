@@ -1,0 +1,5 @@
+　ChatServer:服务器端的唯一的类，作用就是通过Selector监听Read和Accept事件，并针对这些事件的类型，进行不同的处理，如连接、转发。
+
+　ChatClient:客户端，通过Selector监听Read和Connect事件。Read事件就是获取服务器转发的消息然后显示出来；Connect事件就是和服务器建立连接，建立成功后就可以发送消息。
+
+　UserInputHandler:专门等待用户输入的线程，和BIO没区别。
